@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthCare – Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --teal: #1ABCB0; --teal-dark: #138a81; --teal-light: #e0f7f5;
+      --teal-mid: #a8e8e3; --bg: #f0fafa; --card: #ffffff;
+      --text: #1e3a3a; --muted: #7da8a8; --border: #d0ecea;
+    }
+    body {
+      min-height: 100vh; background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      background-image: radial-gradient(ellipse at 10% 0%, rgba(26,188,176,0.18) 0%, transparent 55%),
+                        radial-gradient(ellipse at 90% 90%, rgba(26,188,176,0.1) 0%, transparent 55%);
+    }
+    .navbar { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px 10px; }
+    .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
+    .hamburger span { display: block; width: 24px; height: 2.5px; background: var(--teal-dark); border-radius: 4px; }
+    .nav-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--teal); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(26,188,176,0.3); }
+    .nav-avatar svg { color: white; width: 22px; height: 22px; }
+    .welcome-section { padding: 10px 28px 28px; animation: fadeUp 0.5s ease both; }
+    .welcome-label { font-size: 0.8rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; }
+    .welcome-name { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--text); font-weight: 700; }
+    .welcome-name span { color: var(--teal); }
+    .welcome-sub { font-size: 0.88rem; color: var(--muted); margin-top: 4px; }
+    .health-banner { margin: 0 20px 28px; background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%); border-radius: 20px; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 24px rgba(26,188,176,0.35); animation: fadeUp 0.55s ease both; overflow: hidden; position: relative; }
+    .health-banner::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+    .health-banner::after { content: ''; position: absolute; bottom: -40px; right: 40px; width: 90px; height: 90px; border-radius: 50%; background: rgba(255,255,255,0.07); }
+    .banner-text h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: white; margin-bottom: 4px; }
+    .banner-text p { font-size: 0.8rem; color: rgba(255,255,255,0.8); }
+    .banner-icon { background: rgba(255,255,255,0.2); border-radius: 14px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; z-index: 1; }
+    .banner-icon svg { color: white; width: 26px; height: 26px; }
+    .section-title { padding: 0 28px 14px; font-size: 0.75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; }
+    .menu-grid { padding: 0 20px; display: flex; flex-direction: column; gap: 14px; }
+    .menu-card { background: var(--card); border-radius: 18px; padding: 20px 22px; display: flex; align-items: center; gap: 18px; box-shadow: 0 2px 16px rgba(26,188,176,0.08); border: 1.5px solid var(--border); cursor: pointer; transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s; text-decoration: none; animation: fadeUp 0.5s ease both; }
+    .menu-card:nth-child(1) { animation-delay: 0.05s; }
+    .menu-card:nth-child(2) { animation-delay: 0.10s; }
+    .menu-card:nth-child(3) { animation-delay: 0.15s; }
+    .menu-card:nth-child(4) { animation-delay: 0.20s; }
+    .menu-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(26,188,176,0.18); border-color: var(--teal-mid); }
+    .menu-card:active { transform: scale(0.98); }
+    .card-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .card-icon svg { width: 26px; height: 26px; }
+    .icon-pink   { background: #fde8f0; color: #e0607a; }
+    .icon-purple { background: #ede8fd; color: #7c5cbf; }
+    .icon-teal   { background: var(--teal-light); color: var(--teal-dark); }
+    .icon-orange { background: #fdf0e0; color: #d4881a; }
+    .card-content { flex: 1; }
+    .card-title { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .card-sub { font-size: 0.78rem; color: var(--muted); }
+    .card-arrow { color: var(--teal-mid); flex-shrink: 0; }
+    .card-arrow svg { width: 18px; height: 18px; }
+    .bottom-nav { margin-top: 32px; padding: 16px 40px 24px; display: flex; justify-content: space-around; background: white; border-top: 1.5px solid var(--border); }
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; color: var(--muted); font-size: 0.7rem; text-decoration: none; transition: color 0.2s; }
+    .nav-item.active { color: var(--teal); }
+    .nav-item svg { width: 22px; height: 22px; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="hamburger"><span></span><span></span><span></span></div>
+    <div class="nav-avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
+  </div>
+
+  <div class="welcome-section">
+    <p class="welcome-label">Good morning</p>
+    <h1 class="welcome-name">Welcome <span>Back</span> 👋</h1>
+    <p class="welcome-sub">{{ user }} &nbsp;·&nbsp; How are you feeling today?</p>
+  </div>
+
+  <div class="health-banner">
+    <div class="banner-text">
+      <h3>Your Health Summary</h3>
+      <p>Everything looks great today ✨</p>
+    </div>
+    <div class="banner-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+  </div>
+
+  <p class="section-title">Quick Access</p>
+  <div class="menu-grid">
+
+    <a href="#" class="menu-card">
+      <div class="card-icon icon-pink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+      </div>
+      <div class="card-content">
+        <p class="card-title">Menstruation Cycle</p>
+        <p class="card-sub">Track your cycle &amp; symptoms</p>
+      </div>
+      <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></div>
+    </a>
+
+    <a href="#" class="menu-card">
+      <div class="card-icon icon-purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2l4 4-4 4M6 22l-4-4 4-4M14.5 5.5l-5 13"/></svg>
+      </div>
+      <div class="card-content">
+        <p class="card-title">Dosage Tracker</p>
+        <p class="card-sub">Medications &amp; reminders</p>
+      </div>
+      <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></div>
+    </a>
+
+    <a href="#" class="menu-card">
+      <div class="card-icon icon-teal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>
+      </div>
+      <div class="card-content">
+        <p class="card-title">Appointments</p>
+        <p class="card-sub">Upcoming visits &amp; schedule</p>
+      </div>
+      <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></div>
+    </a>
+
+    <a href="#" class="menu-card">
+      <div class="card-icon icon-orange">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </div>
+      <div class="card-content">
+        <p class="card-title">Settings</p>
+        <p class="card-sub">Profile, privacy &amp; preferences</p>
+      </div>
+      <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></div>
+    </a>
+
+  </div>
+
+  <div class="bottom-nav">
+    <a href="/dashboard" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="#" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Health
+    </a>
+    <a href="#" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Calendar
+    </a>
+    <a href="/logout" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Logout
+    </a>
+  </div>
+
+</body>
+</html>

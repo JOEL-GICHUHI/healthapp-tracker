@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Appointment – HealthCare</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--teal:#1ABCB0;--teal-dark:#138a81;--teal-light:#e0f7f5;--bg:#f0fafa;--card:#fff;--text:#1e3a3a;--muted:#7da8a8;--border:#d0ecea;}
+    body{min-height:100vh;background:var(--bg);font-family:'DM Sans',sans-serif;}
+    .topbar{background:var(--teal);padding:20px 24px 48px;}
+    .topbar-inner{display:flex;align-items:center;gap:14px;}
+    .back-btn{background:rgba(255,255,255,0.2);border:none;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;text-decoration:none;}
+    .back-btn svg{width:20px;height:20px;}
+    .topbar h1{font-family:'Playfair Display',serif;color:white;font-size:1.4rem;}
+    .form-card{background:var(--card);border-radius:24px;margin:-24px 16px 0;padding:28px 24px;box-shadow:0 8px 32px rgba(26,188,176,0.12);animation:fadeUp 0.4s ease both;}
+    .field{margin-bottom:20px;}
+    .field label{display:block;font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+    .field input,.field select{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:12px;background:var(--teal-light);font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+    .field input:focus,.field select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,188,176,0.15);background:white;}
+    .field input[type="date"]{color:var(--text);}
+    .btn-save{width:100%;padding:15px;background:var(--teal);color:white;border:none;border-radius:14px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(26,188,176,0.35);transition:background 0.2s;}
+    .btn-save:hover{background:var(--teal-dark);}
+    .appt-types{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .appt-type{border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:0.85rem;color:var(--muted);cursor:pointer;text-align:center;transition:all 0.2s;background:var(--teal-light);}
+    .appt-type.selected,.appt-type:hover{border-color:var(--teal);color:var(--teal-dark);background:white;font-weight:600;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="/appointments" class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
+      <h1>Add Your Appointment</h1>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <form method="POST" action="/appointments/add">
+      <div class="field">
+        <label>Appointment Type</label>
+        <div class="appt-types">
+          <div class="appt-type selected" onclick="selectType(this,'General Checkup')">General Checkup</div>
+          <div class="appt-type" onclick="selectType(this,'Specialist')">Specialist</div>
+          <div class="appt-type" onclick="selectType(this,'Dental')">Dental</div>
+          <div class="appt-type" onclick="selectType(this,'Other')">Other</div>
+        </div>
+        <input type="hidden" name="appointment_name" id="appt_name_hidden" value="General Checkup"/>
+      </div>
+
+      <div class="field">
+        <label>Name of Doctor</label>
+        <input type="text" name="doctor_name" placeholder="Dr. Jane Smith" required/>
+      </div>
+
+      <div class="field">
+        <label>Enter Date</label>
+        <input type="date" name="appointment_date" required/>
+      </div>
+
+      <button type="submit" class="btn-save">Save Appointment</button>
+    </form>
+  </div>
+
+  <script>
+    function selectType(el, val) {
+      document.querySelectorAll('.appt-type').forEach(e => e.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('appt_name_hidden').value = val;
+    }
+  </script>
+</body>
+</html>
