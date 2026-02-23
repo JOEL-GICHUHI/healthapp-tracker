@@ -1,21 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <title>Sign Up – HealthCare</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet"/>
-  <style>
-    body { font-family: 'DM Sans', sans-serif; background: #f4fafa; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-    .card { background: white; border-radius: 24px; padding: 48px 40px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 8px 40px rgba(26,188,176,0.12); }
-    h1 { font-family: 'Playfair Display', serif; color: #138a81; margin-bottom: 20px; }
-    p { color: #5a8888; }
-    a { color: #1ABCB0; font-weight: 600; text-decoration: none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare Plus | Sign Up</title>
+    <!-- Google Fonts for a clean look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --turquoise: #00A89E;
+            --turquoise-dark: #008f86;
+            --white: #ffffff;
+            --light-gray: #f4f7f6;
+            --text-main: #333333;
+            --text-muted: #777777;
+            --error-red: #e74c3c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #00A89E 0%, #007d75 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .signup-card {
+            background-color: var(--white);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 50px;
+            color: var(--turquoise);
+            line-height: 1;
+        }
+
+        .header h1 {
+            color: var(--turquoise);
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: var(--turquoise);
+        }
+
+        /* Styling for the validation error */
+        .error-message {
+            color: var(--error-red);
+            font-size: 11px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .terms {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--turquoise);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--turquoise-dark);
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer-link a {
+            color: var(--turquoise);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Sign Up</h1>
-    <p>Sign up page coming soon! <a href="/">Back to Login</a></p>
-  </div>
+
+    <div class="signup-card">
+        <div class="header">
+            <div class="logo-icon">✚</div>
+            <h1>Join HealthCare+</h1>
+            <p>Your secure patient portal starts here.</p>
+        </div>
+
+        <form id="healthSignUpForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="name@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="(555) 000-0000" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <!-- Added 'max' attribute will be set via JS automatically below -->
+                    <input type="date" id="dob" required>
+                    <div id="dobError" class="error-message">DOB cannot be in the future.</div>
+                </div>
+                <div class="form-group">
+                    <label for="insurance">Insurance ID</label>
+                    <input type="text" id="insurance" placeholder="Optional">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Create Password</label>
+                <input type="password" id="password" placeholder="Must be at least 8 characters" required>
+            </div>
+
+            <div class="terms">
+                <input type="checkbox" id="agree" required>
+                <label for="agree">I agree to the privacy policy and HIPAA terms.</label>
+            </div>
+
+            <button type="submit" class="btn-submit">Register Account</button>
+        </form>
+
+        <div class="footer-link">
+            Already have an account? <a href="#">Sign In</a>
+        </div>
+    </div>
+
+    <script>
+        // 1. SET MAX DATE AUTOMATICALLY TO TODAY
+        // This prevents the user from selecting a future date in the calendar picker.
+        const dobInput = document.getElementById('dob');
+        const today = new Date().toISOString().split('T')[0];
+        dobInput.setAttribute('max', today);
+
+        // 2. FORM SUBMISSION LOGIC
+        document.getElementById('healthSignUpForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const name = document.getElementById('fullName').value;
+            const dobValue = document.getElementById('dob').value;
+            const dobError = document.getElementById('dobError');
+            const password = document.getElementById('password').value;
+
+            // Date of Birth Validation Logic
+            const selectedDate = new Date(dobValue);
+            const currentDate = new Date();
+
+            // Reset error state
+            dobError.style.display = "none";
+            dobInput.style.borderColor = "#eee";
+
+            if (selectedDate > currentDate) {
+                dobError.style.display = "block";
+                dobInput.style.borderColor = "var(--error-red)";
+                dobInput.focus();
+                return; // Stop the form from submitting
+            }
+
+            // Password Length check
+            if (password.length < 8) {
+                alert("Please use a stronger password (at least 8 characters).");
+                return;
+            }
+
+            // Visual feedback for successful "Submit"
+            const btn = document.querySelector('.btn-submit');
+            btn.innerHTML = "Processing...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert("Account created successfully for " + name + "!");
+                btn.innerHTML = "Register Account";
+                btn.disabled = false;
+                document.getElementById('healthSignUpForm').reset();
+            }, 1500);
+        });
+    </script>
+
 </body>
 </html>
