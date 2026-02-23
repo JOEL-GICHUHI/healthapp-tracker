@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:sans-serif;background:#f0fafa;min-height:100vh}
+    .topbar{background:#1ABCB0;padding:20px 24px;display:flex;align-items:center;gap:12px}
+    .topbar a{color:white;text-decoration:none;font-size:1.4rem}
+    .topbar h1{color:white;font-size:1.2rem}
+    .content{padding:24px 16px;max-width:480px;margin:0 auto}
+    .card{background:white;border-radius:16px;padding:24px;border:1px solid #d0ecea}
+    .stars{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+    .star{font-size:2rem;cursor:pointer;opacity:0.3;transition:opacity 0.2s}
+    .star.active{opacity:1}
+    .field{margin-bottom:16px}
+    .field label{display:block;font-size:0.78rem;color:#7da8a8;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+    .field input,.field textarea{width:100%;padding:12px 14px;border:1.5px solid #d0ecea;border-radius:10px;background:#e0f7f5;font-size:0.92rem;color:#1e3a3a;outline:none;font-family:sans-serif;resize:none}
+    .field input:focus,.field textarea:focus{border-color:#1ABCB0;background:white}
+    .btn{width:100%;padding:14px;background:#1ABCB0;color:white;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:8px}
+    .btn:hover{background:#138a81}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="/dashboard">&#8592;</a>
+    <h1>Feedback</h1>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="stars">
+        <span class="star" onclick="rate(1)">⭐</span>
+        <span class="star" onclick="rate(2)">⭐</span>
+        <span class="star" onclick="rate(3)">⭐</span>
+        <span class="star" onclick="rate(4)">⭐</span>
+        <span class="star" onclick="rate(5)">⭐</span>
+      </div>
+      <form method="POST" action="/feedback">
+        <div class="field"><label>Subject</label><input type="text" name="subject" placeholder="e.g. App suggestion"/></div>
+        <div class="field"><label>Your Message</label><textarea name="message" rows="5" placeholder="Tell us what you think..."></textarea></div>
+        <button type="submit" class="btn">Send Feedback</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    function rate(n){document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<n));}
+  </script>
+</body>
+</html>
