@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:sans-serif;background:#f0fafa;min-height:100vh}
+    .topbar{background:#1ABCB0;padding:20px 24px;display:flex;align-items:center;gap:12px}
+    .topbar a{color:white;text-decoration:none;font-size:1.4rem}
+    .topbar h1{color:white;font-size:1.2rem}
+    .content{padding:24px 16px;max-width:480px;margin:0 auto}
+    .avatar{width:80px;height:80px;border-radius:50%;background:#1ABCB0;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:2rem;color:white}
+    .name{text-align:center;font-size:1.1rem;font-weight:600;color:#1e3a3a;margin-bottom:4px}
+    .email{text-align:center;color:#7da8a8;font-size:0.85rem;margin-bottom:24px}
+    .card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid #d0ecea}
+    .card h3{font-size:0.75rem;color:#7da8a8;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+    .field{margin-bottom:14px}
+    .field label{display:block;font-size:0.78rem;color:#7da8a8;margin-bottom:4px}
+    .field input{width:100%;padding:11px 14px;border:1.5px solid #d0ecea;border-radius:10px;background:#e0f7f5;font-size:0.92rem;color:#1e3a3a;outline:none}
+    .field input:focus{border-color:#1ABCB0;background:white}
+    .btn{width:100%;padding:14px;background:#1ABCB0;color:white;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer}
+    .btn:hover{background:#138a81}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="/dashboard">&#8592;</a>
+    <h1>My Profile</h1>
+  </div>
+  <div class="content">
+    <div class="avatar">👤</div>
+    <p class="name">{{ user }}</p>
+    <p class="email">{{ user }}</p>
+    <div class="card">
+      <h3>Personal Information</h3>
+      <div class="field"><label>Full Name</label><input type="text" placeholder="Your full name"/></div>
+      <div class="field"><label>Email</label><input type="email" value="{{ user }}"/></div>
+      <div class="field"><label>Phone Number</label><input type="tel" placeholder="+254 700 000 000"/></div>
+      <div class="field"><label>Date of Birth</label><input type="date"/></div>
+    </div>
+    <div class="card">
+      <h3>Health Information</h3>
+      <div class="field"><label>Blood Type</label><input type="text" placeholder="e.g. A+"/></div>
+      <div class="field"><label>Allergies</label><input type="text" placeholder="e.g. Penicillin"/></div>
+      <div class="field"><label>Emergency Contact</label><input type="text" placeholder="Name & Phone"/></div>
+    </div>
+    <button class="btn">Save Changes</button>
+  </div>
+</body>
+</html>

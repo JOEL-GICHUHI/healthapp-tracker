@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Medicine – HealthCare</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--teal:#1ABCB0;--teal-dark:#138a81;--teal-light:#e0f7f5;--bg:#f0fafa;--card:#fff;--text:#1e3a3a;--muted:#7da8a8;--border:#d0ecea;}
+    body{min-height:100vh;background:var(--bg);font-family:'DM Sans',sans-serif;}
+    .topbar{background:var(--teal);padding:20px 24px 48px;}
+    .topbar-inner{display:flex;align-items:center;gap:14px;}
+    .back-btn{background:rgba(255,255,255,0.2);border:none;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:white;text-decoration:none;}
+    .back-btn svg{width:20px;height:20px;}
+    .topbar h1{font-family:'Playfair Display',serif;color:white;font-size:1.4rem;}
+    .form-card{background:var(--card);border-radius:24px;margin:-24px 16px 0;padding:28px 24px;box-shadow:0 8px 32px rgba(26,188,176,0.12);animation:fadeUp 0.4s ease both;}
+    .field{margin-bottom:20px;}
+    .field label{display:block;font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+    .field input{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:12px;background:var(--teal-light);font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+    .field input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,188,176,0.15);background:white;}
+    .input-icon{position:relative;}
+    .input-icon svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--teal);}
+    .input-icon input{padding-left:44px;}
+    .timing-label{font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:block;}
+    .timing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px;}
+    .timing-card{border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--teal-light);}
+    .timing-card input[type=checkbox]{display:none;}
+    .timing-card.checked{border-color:var(--teal);background:white;box-shadow:0 0 0 3px rgba(26,188,176,0.12);}
+    .timing-card svg{width:24px;height:24px;color:var(--muted);margin-bottom:6px;}
+    .timing-card.checked svg{color:var(--teal);}
+    .timing-card span{display:block;font-size:0.8rem;font-weight:600;color:var(--muted);}
+    .timing-card.checked span{color:var(--teal-dark);}
+    .btn-save{width:100%;padding:15px;background:var(--teal);color:white;border:none;border-radius:14px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(26,188,176,0.35);transition:background 0.2s;}
+    .btn-save:hover{background:var(--teal-dark);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="/dosage" class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
+      <h1>Add Your Medicine Dosage</h1>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <form method="POST" action="/dosage/add">
+      <div class="field">
+        <label>Name of Medicine</label>
+        <div class="input-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2l4 4-4 4M6 22l-4-4 4-4M14.5 5.5l-5 13"/></svg>
+          <input type="text" name="medicine_name" placeholder="e.g. Paracetamol 500mg" required/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Prescription / Notes</label>
+        <div class="input-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <input type="text" name="prescription" placeholder="e.g. Take after meals"/>
+        </div>
+      </div>
+
+      <span class="timing-label">When to Take</span>
+      <div class="timing-grid">
+        <label class="timing-card" id="lbl-morning">
+          <input type="checkbox" name="morning" onchange="toggleCard('lbl-morning',this)"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+          <span>Morning</span>
+        </label>
+        <label class="timing-card" id="lbl-afternoon">
+          <input type="checkbox" name="afternoon" onchange="toggleCard('lbl-afternoon',this)"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/></svg>
+          <span>Afternoon</span>
+        </label>
+        <label class="timing-card" id="lbl-night">
+          <input type="checkbox" name="night" onchange="toggleCard('lbl-night',this)"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <span>Night</span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn-save">Save Medicine</button>
+    </form>
+  </div>
+
+  <script>
+    function toggleCard(id, cb) {
+      document.getElementById(id).classList.toggle('checked', cb.checked);
+    }
+  </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ from functools import wraps
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-change-in-production'
 
-USERS = {"123": "123"}
+USERS = {"user@health.com": "password123"}
 appointments = []
 dosages = []
 
@@ -41,6 +41,34 @@ def logout():
 @login_required
 def dashboard():
     return render_template('dashboard.html', user=session['user'])
+
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', user=session['user'])
+
+@app.route('/settings')
+@login_required
+def settings():
+    return render_template('settings.html')
+
+@app.route('/instructions')
+@login_required
+def instructions():
+    return render_template('instructions.html')
+
+@app.route('/feedback', methods=['GET', 'POST'])
+@login_required
+def feedback():
+    if request.method == 'POST':
+        flash('Thank you for your feedback!')
+        return redirect(url_for('dashboard'))
+    return render_template('feedback.html')
+
+@app.route('/privacy')
+@login_required
+def privacy():
+    return render_template('privacy.html')
 
 @app.route('/appointments')
 @login_required
