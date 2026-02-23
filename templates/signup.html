@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HealthCare Plus | Sign Up</title>
-    <!-- Google Fonts for a clean look -->
+    <title>HealthCare Plus | Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS STYLES --- */
         :root {
             --turquoise: #00A89E;
             --turquoise-dark: #008f86;
             --white: #ffffff;
-            --light-gray: #f4f7f6;
             --text-main: #333333;
             --text-muted: #777777;
             --error-red: #e74c3c;
@@ -35,18 +32,25 @@
             padding: 20px;
         }
 
-        .signup-card {
+        /* Container for both forms */
+        .auth-card {
             background-color: var(--white);
             width: 100%;
             max-width: 500px;
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        /* Hide logic */
+        .hidden {
+            display: none;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .logo-icon {
@@ -58,12 +62,6 @@
         .header h1 {
             color: var(--turquoise);
             font-size: 24px;
-            margin-top: 10px;
-        }
-
-        .header p {
-            color: var(--text-muted);
-            font-size: 14px;
         }
 
         .form-group {
@@ -94,28 +92,18 @@
             border-radius: 8px;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         input:focus {
             border-color: var(--turquoise);
         }
 
-        /* Styling for the validation error */
         .error-message {
             color: var(--error-red);
             font-size: 11px;
             margin-top: 4px;
             display: none;
-        }
-
-        .terms {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 20px 0;
-            font-size: 12px;
-            color: var(--text-muted);
         }
 
         .btn-submit {
@@ -128,7 +116,7 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
+            margin-top: 10px;
         }
 
         .btn-submit:hover {
@@ -146,121 +134,149 @@
             color: var(--turquoise);
             text-decoration: none;
             font-weight: 600;
+            cursor: pointer;
         }
 
         @media (max-width: 480px) {
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
+            .form-row { flex-direction: column; gap: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="signup-card">
+    <!-- SIGN UP VIEW -->
+    <div id="signup-view" class="auth-card">
         <div class="header">
             <div class="logo-icon">✚</div>
-            <h1>Join HealthCare+</h1>
-            <p>Your secure patient portal starts here.</p>
+            <h1>Create Account</h1>
+            <p>Join HealthCare Plus today.</p>
         </div>
 
-        <form id="healthSignUpForm">
+        <form id="signUpForm">
             <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" placeholder="Enter your full name" required>
+                <label>Full Name</label>
+                <input type="text" id="reg-name" placeholder="John Doe" required>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="name@email.com" required>
+                    <label>Email</label>
+                    <input type="email" id="reg-email" placeholder="name@email.com" required>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" placeholder="(555) 000-0000" required>
+                    <label>Phone Number</label>
+                    <!-- Added pattern for + country code -->
+                    <input type="tel" id="reg-phone" placeholder="+1 1234567890" pattern="^\+.*" title="Please include country code starting with +" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="dob">Date of Birth</label>
-                    <!-- Added 'max' attribute will be set via JS automatically below -->
-                    <input type="date" id="dob" required>
-                    <div id="dobError" class="error-message">DOB cannot be in the future.</div>
+                    <label>Date of Birth</label>
+                    <input type="date" id="reg-dob" required>
+                    <div id="dobError" class="error-message">Date cannot be in the future.</div>
                 </div>
                 <div class="form-group">
-                    <label for="insurance">Insurance ID</label>
-                    <input type="text" id="insurance" placeholder="Optional">
+                    <label>Insurance ID (Optional)</label>
+                    <input type="text" placeholder="ID Number">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="password">Create Password</label>
-                <input type="password" id="password" placeholder="Must be at least 8 characters" required>
+                <label>Password</label>
+                <input type="password" id="reg-pass" placeholder="At least 8 characters" required>
             </div>
 
-            <div class="terms">
-                <input type="checkbox" id="agree" required>
-                <label for="agree">I agree to the privacy policy and HIPAA terms.</label>
-            </div>
-
-            <button type="submit" class="btn-submit">Register Account</button>
+            <button type="submit" class="btn-submit">Sign Up</button>
         </form>
 
         <div class="footer-link">
-            Already have an account? <a href="#">Sign In</a>
+            Already have an account? <a onclick="toggleView('login-view')">Log In</a>
+        </div>
+    </div>
+
+    <!-- LOGIN VIEW -->
+    <div id="login-view" class="auth-card hidden">
+        <div class="header">
+            <div class="logo-icon">✚</div>
+            <h1>Welcome Back</h1>
+            <p>Please log in to your account.</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="login-email" placeholder="name@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Log In</button>
+        </form>
+
+        <div class="footer-link">
+            Don't have an account? <a onclick="toggleView('signup-view')">Sign Up</a>
         </div>
     </div>
 
     <script>
-        // 1. SET MAX DATE AUTOMATICALLY TO TODAY
-        // This prevents the user from selecting a future date in the calendar picker.
-        const dobInput = document.getElementById('dob');
+        // 1. NAVIGATION LOGIC (Toggling between Login and Signup)
+        function toggleView(viewId) {
+            document.getElementById('signup-view').classList.add('hidden');
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById(viewId).classList.remove('hidden');
+        }
+
+        // 2. SET MAX DATE FOR DOB (No future dates)
+        const dobInput = document.getElementById('reg-dob');
         const today = new Date().toISOString().split('T')[0];
         dobInput.setAttribute('max', today);
 
-        // 2. FORM SUBMISSION LOGIC
-        document.getElementById('healthSignUpForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-
-            const name = document.getElementById('fullName').value;
-            const dobValue = document.getElementById('dob').value;
+        // 3. SIGN UP FORM LOGIC
+        document.getElementById('signUpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const dobValue = dobInput.value;
             const dobError = document.getElementById('dobError');
-            const password = document.getElementById('password').value;
-
-            // Date of Birth Validation Logic
             const selectedDate = new Date(dobValue);
             const currentDate = new Date();
+            const password = document.getElementById('reg-pass').value;
 
-            // Reset error state
-            dobError.style.display = "none";
-            dobInput.style.borderColor = "#eee";
-
+            // Date validation
             if (selectedDate > currentDate) {
                 dobError.style.display = "block";
-                dobInput.style.borderColor = "var(--error-red)";
-                dobInput.focus();
-                return; // Stop the form from submitting
+                return;
+            } else {
+                dobError.style.display = "none";
             }
 
-            // Password Length check
+            // Password validation
             if (password.length < 8) {
-                alert("Please use a stronger password (at least 8 characters).");
+                alert("Password must be at least 8 characters.");
                 return;
             }
 
-            // Visual feedback for successful "Submit"
-            const btn = document.querySelector('.btn-submit');
-            btn.innerHTML = "Processing...";
-            btn.disabled = true;
-
+            // Success Simulation
+            const btn = e.target.querySelector('button');
+            btn.innerText = "Creating Account...";
+            
             setTimeout(() => {
-                alert("Account created successfully for " + name + "!");
-                btn.innerHTML = "Register Account";
-                btn.disabled = false;
-                document.getElementById('healthSignUpForm').reset();
+                alert("Registration Successful! Redirecting to login...");
+                // Clear the form
+                e.target.reset();
+                // "Return" to login page automatically
+                toggleView('login-view');
+                btn.innerText = "Sign Up";
             }, 1500);
+        });
+
+        // 4. LOGIN FORM LOGIC
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            alert("Logging in as " + email + "...");
         });
     </script>
 
