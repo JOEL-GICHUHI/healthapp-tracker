@@ -1,5 +1,8 @@
+import itertools
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from functools import wraps
+
+appointment_id_counter = itertools.count(1)
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-change-in-production'
@@ -18,6 +21,9 @@ def login_required(f):
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    # Clear old flashes unrelated to login
+    session.pop('_flashes', None)
+
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -79,7 +85,9 @@ def appointments_list():
 @login_required
 def appointments_add():
     if request.method == 'POST':
+        new_id = next(appointment_id_counter)
         appointments.append({
+            'id': new_id,
             'name': request.form.get('appointment_name'),
             'doctor': request.form.get('doctor_name'),
             'date': request.form.get('appointment_date'),
@@ -87,6 +95,25 @@ def appointments_add():
         flash('Appointment saved successfully!')
         return redirect(url_for('appointments_list'))
     return render_template('appointments_add.html')
+
+@app.route('/appointments/cancel/<int:id>', methods=['POST'])
+@login_required
+def cancel_appointment(id):
+    global appointments
+    appointments = [a for a in appointments if a.get('id') != id]
+    flash('Appointment canceled')
+    return redirect(url_for('appointments_list'))
+
+@app.route('/appointments/reschedule/<int:id>', methods=['POST'])
+@login_required
+def reschedule_appointment(id):
+    new_date = request.form.get('new_date')
+    for a in appointments:
+        if a.get('id') == id:
+            a['date'] = new_date
+            break
+    flash('Appointment rescheduled')
+    return redirect(url_for('appointments_list'))
 
 @app.route('/dosage')
 @login_required
