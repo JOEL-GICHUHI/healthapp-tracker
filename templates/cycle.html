@@ -1,151 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Cycle Tracker</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f7f7fb;
-      padding: 30px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cycle Tracker – HealthCare</title>
 
-    .container {
-      max-width: 400px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    }
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-    .cycle-input {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 25px;
-    }
+:root{
+  --teal:#1ABCB0;
+  --teal-dark:#138a81;
+  --teal-light:#e0f7f5;
+  --bg:#f0fafa;
+  --card:#fff;
+  --text:#1e3a3a;
+  --muted:#7da8a8;
+  --border:#d0ecea;
+}
 
-    input, button {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      font-size: 14px;
-    }
+body{min-height:100vh;background:var(--bg);font-family:'DM Sans',sans-serif;}
 
-    button {
-      background: #6c63ff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
+/* TOPBAR */
+.topbar{background:var(--teal);padding:20px 24px 60px;}
+.topbar-inner{display:flex;align-items:center;gap:14px;}
+.back-btn{
+  background:rgba(255,255,255,0.2);
+  border-radius:10px;width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  color:white;text-decoration:none;font-weight:bold;
+}
+.topbar h1{
+  font-family:'Playfair Display',serif;
+  color:white;font-size:1.4rem;
+}
 
-    button:hover {
-      background: #574fd6;
-    }
+/* CARD */
+.container{
+  max-width:500px;margin:-40px auto 40px;
+  padding:28px 24px;background:var(--card);
+  border-radius:24px;
+  box-shadow:0 8px 32px rgba(26,188,176,0.12);
+}
 
-    .info-card {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px;
-      border-radius: 10px;
-      background: #f1f3ff;
-      margin-bottom: 10px;
-    }
+/* INPUTS */
+.cycle-input label{
+  display:block;font-size:0.75rem;font-weight:600;
+  color:var(--muted);text-transform:uppercase;margin-bottom:6px;
+}
+input{
+  width:100%;padding:13px 16px;margin-bottom:16px;
+  border:1.5px solid var(--border);
+  border-radius:12px;background:var(--teal-light);
+}
+button{
+  width:100%;padding:14px;border:none;border-radius:14px;
+  font-weight:600;cursor:pointer;margin-top:5px;
+}
+#updateBtn{background:var(--teal);color:white;}
+#updateBtn:disabled{
+  background:#b2dfdb;cursor:not-allowed;opacity:0.7;
+}
+.btn-reset{
+  background:white;color:var(--teal);
+  border:1.5px solid var(--teal);
+}
+.btn-reset:hover{background:var(--teal-light);}
 
-    .info-text h3 {
-      margin: 0;
-      font-size: 16px;
-    }
+/* PROGRESS RING */
+.progress-container{display:flex;justify-content:center;margin:25px 0;}
+.progress-wrapper{position:relative;width:140px;height:140px;}
+svg{transform:rotate(-90deg);}
+.progress-bg{stroke:#e6f5f4;stroke-width:10;fill:none;}
+.progress-ring{
+  stroke:var(--teal);stroke-width:10;fill:none;
+  stroke-linecap:round;transition:stroke-dashoffset 0.6s ease;
+}
+.progress-text{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-weight:600;color:var(--text);
+}
 
-    .info-text p {
-      margin: 4px 0 0;
-      font-size: 14px;
-      color: #555;
-    }
-  </style>
+/* INFO */
+.info-card{
+  background:var(--teal-light);
+  border-radius:18px;padding:16px;margin-bottom:16px;
+}
+
+/* CALENDAR */
+.calendar-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:6px;margin-top:10px;
+}
+.day{
+  padding:8px;text-align:center;border-radius:8px;
+  font-size:0.8rem;background:#f5fbfb;
+}
+.today{background:var(--teal);color:white;}
+.period{background:#ffd6d6;}
+.next-period{background:#c3f7f3;}
+.ovulation{background:#ffb3ec;}
+.fertile{background:#d9fff8;}
+</style>
 </head>
+
 <body>
 
-<div class="container">
-  <h2>Cycle Tracker</h2>
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="/dashboard" class="back-btn">←</a>
+    <h1>Cycle Tracker</h1>
+  </div>
+</div>
 
-  <!-- User Inputs -->
+<div class="container">
+
   <div class="cycle-input">
-    <label>Last Period Start:</label>
+    <label>Last Period Start</label>
     <input type="date" id="lastPeriodDate">
 
-    <label>Cycle Length (days):</label>
+    <label>Cycle Length (days)</label>
     <input type="number" id="cycleLength" value="28" min="21" max="40">
 
-    <button onclick="updateCycle()">Update</button>
+    <button id="updateBtn" onclick="updateCycle()" disabled>Update</button>
+    <button type="button" class="btn-reset" onclick="resetCycle()">Reset Cycle</button>
   </div>
 
-  <!-- Cycle Day Card -->
-  <div class="info-card">
-    <div class="info-text">
-      <h3>Cycle Day</h3>
-      <p id="cycleDayText">Not calculated yet</p>
+  <div class="progress-container">
+    <div class="progress-wrapper">
+      <svg width="140" height="140">
+        <circle class="progress-bg" cx="70" cy="70" r="60"/>
+        <circle class="progress-ring" cx="70" cy="70" r="60"
+          stroke-dasharray="377"
+          stroke-dashoffset="377"
+          id="progressRing"/>
+      </svg>
+      <div class="progress-text" id="progressText">Day 0</div>
     </div>
   </div>
 
-  <!-- Next Period Card -->
-  <div class="info-card">
-    <div class="info-text">
-      <h3>Next Period</h3>
-      <p id="nextPeriodText">Not calculated yet</p>
-    </div>
+  <div class="info-card"><p id="cycleDayText">Not calculated yet</p></div>
+  <div class="info-card"><p id="nextPeriodText">Not calculated yet</p></div>
+
+  <div class="calendar">
+    <h3>This Month</h3>
+    <div class="calendar-grid" id="calendarGrid"></div>
   </div>
 
 </div>
 
 <script>
-function updateCycle() {
-  const lastPeriod = document.getElementById("lastPeriodDate").value;
-  const cycleLength = parseInt(document.getElementById("cycleLength").value);
+const lastInput = document.getElementById("lastPeriodDate");
+const lengthInput = document.getElementById("cycleLength");
+const updateBtn = document.getElementById("updateBtn");
 
-  if (!lastPeriod || !cycleLength) {
-    alert("Please enter your last period date and cycle length");
-    return;
+function checkInputs(){
+  updateBtn.disabled = !(lastInput.value && lengthInput.value);
+}
+lastInput.addEventListener("input", checkInputs);
+lengthInput.addEventListener("input", checkInputs);
+
+window.addEventListener("load",()=>{
+  const savedDate = localStorage.getItem("lastPeriodDate");
+  const savedLength = localStorage.getItem("cycleLength");
+  if(savedDate && savedLength){
+    lastInput.value=savedDate;
+    lengthInput.value=savedLength;
+    updateBtn.disabled=false;
+    updateCycle();
   }
+  scheduleMidnightUpdate();
+});
 
-  const startDate = new Date(lastPeriod);
+function updateCycle(){
+  const lastDate = lastInput.value;
+  const cycleLength = parseInt(lengthInput.value);
+  if(!lastDate || !cycleLength) return;
+
+  localStorage.setItem("lastPeriodDate", lastDate);
+  localStorage.setItem("cycleLength", cycleLength);
+
+  let startDate = new Date(lastDate);
   const today = new Date();
-
   today.setHours(0,0,0,0);
   startDate.setHours(0,0,0,0);
 
-  const diffTime = today - startDate;
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const totalDays = Math.floor((today-startDate)/(1000*60*60*24));
+  const completedCycles = Math.floor(totalDays/cycleLength);
+  startDate.setDate(startDate.getDate()+completedCycles*cycleLength);
 
-  const cycleDay = (diffDays % cycleLength) + 1;
+  const cycleDay = Math.floor((today-startDate)/(1000*60*60*24))+1;
+  const nextPeriod = new Date(startDate);
+  nextPeriod.setDate(startDate.getDate()+cycleLength);
 
+  const ovulation = new Date(nextPeriod);
+  ovulation.setDate(nextPeriod.getDate()-14);
 
-  const nextPeriodDate = new Date(startDate);
-  nextPeriodDate.setDate(startDate.getDate() + cycleLength);
+  const fertileStart = new Date(ovulation);
+  fertileStart.setDate(ovulation.getDate()-4);
 
-  const daysRemaining = Math.ceil(
-    (nextPeriodDate - today) / (1000 * 60 * 60 * 24)
-  );
+  const percent = cycleDay/cycleLength;
+  document.getElementById("progressRing")
+    .style.strokeDashoffset=377-(percent*377);
+  document.getElementById("progressText").innerText=`Day ${cycleDay}`;
+  document.getElementById("cycleDayText")
+    .innerText=`Cycle Day ${cycleDay} of ${cycleLength}`;
+  document.getElementById("nextPeriodText")
+    .innerText=`Next Period: ${nextPeriod.toDateString()}`;
 
-  // Format dates
-  const options = { month: 'short', day: 'numeric' };
-  const formattedStart = startDate.toLocaleDateString(undefined, options);
-  const formattedNext = nextPeriodDate.toLocaleDateString(undefined, options);
+  renderCalendar(startDate,nextPeriod,ovulation,fertileStart);
+}
 
-  // Update UI
-  document.getElementById("cycleDayText").innerText =
-    `Day ${cycleDay} of ${cycleLength} · Started ${formattedStart}`;
+function renderCalendar(periodStart,nextPeriod,ovulation,fertileStart){
+  const grid=document.getElementById("calendarGrid");
+  grid.innerHTML="";
+  const today=new Date();
+  const year=today.getFullYear();
+  const month=today.getMonth();
+  const lastDay=new Date(year,month+1,0);
 
-  document.getElementById("nextPeriodText").innerText =
-    `Expected in ${daysRemaining} days · ${formattedNext}`;
+  for(let i=1;i<=lastDay.getDate();i++){
+    const day=new Date(year,month,i);
+    day.setHours(0,0,0,0);
+    const div=document.createElement("div");
+    div.classList.add("day");
+    div.innerText=i;
+
+    if(day.toDateString()===today.toDateString()) div.classList.add("today");
+    if(day.toDateString()===periodStart.toDateString()) div.classList.add("period");
+    if(day.toDateString()===nextPeriod.toDateString()) div.classList.add("next-period");
+    if(day.toDateString()===ovulation.toDateString()) div.classList.add("ovulation");
+    if(day>=fertileStart && day<=ovulation) div.classList.add("fertile");
+
+    grid.appendChild(div);
+  }
+}
+
+function resetCycle(){
+  localStorage.clear();
+  lastInput.value="";
+  lengthInput.value=28;
+  updateBtn.disabled=true;
+  document.getElementById("progressRing").style.strokeDashoffset=377;
+  document.getElementById("progressText").innerText="Day 0";
+  document.getElementById("cycleDayText").innerText="Not calculated yet";
+  document.getElementById("nextPeriodText").innerText="Not calculated yet";
+  document.getElementById("calendarGrid").innerHTML="";
+}
+
+function scheduleMidnightUpdate(){
+  const now=new Date();
+  const midnight=new Date();
+  midnight.setHours(24,0,0,0);
+  setTimeout(()=>{
+    updateCycle();
+    scheduleMidnightUpdate();
+  },midnight-now);
 }
 </script>
 
