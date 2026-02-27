@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HealthCare Plus | Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
             --turquoise: #00A89E;
@@ -32,7 +32,6 @@
             padding: 20px;
         }
 
-        /* Container for both forms */
         .auth-card {
             background-color: var(--white);
             width: 100%;
@@ -40,13 +39,9 @@
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
         }
 
-        /* Hide logic */
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
 
         .header {
             text-align: center;
@@ -56,7 +51,6 @@
         .logo-icon {
             font-size: 50px;
             color: var(--turquoise);
-            line-height: 1;
         }
 
         .header h1 {
@@ -64,18 +58,14 @@
             font-size: 24px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+        .form-group { margin-bottom: 15px; }
 
         .form-row {
             display: flex;
             gap: 15px;
         }
 
-        .form-row .form-group {
-            flex: 1;
-        }
+        .form-row .form-group { flex: 1; }
 
         label {
             display: block;
@@ -95,8 +85,30 @@
             transition: all 0.3s ease;
         }
 
-        input:focus {
+        input:focus { border-color: var(--turquoise); }
+
+        .gender-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .gender-option {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .gender-option input { display: none; }
+
+        .gender-option.selected {
             border-color: var(--turquoise);
+            background: #e6f7f6;
+            font-weight: 600;
+            color: var(--turquoise-dark);
         }
 
         .error-message {
@@ -144,141 +156,148 @@
 </head>
 <body>
 
-    <!-- SIGN UP VIEW -->
-    <div id="signup-view" class="auth-card">
-        <div class="header">
-            <div class="logo-icon">✚</div>
-            <h1>Create Account</h1>
-            <p>Join HealthCare Plus today.</p>
-        </div>
-
-        <form id="signUpForm">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="reg-name" placeholder="John Doe" required>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="reg-email" placeholder="name@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <!-- Added pattern for + country code -->
-                    <input type="tel" id="reg-phone" placeholder="+1 1234567890" pattern="^\+.*" title="Please include country code starting with +" required>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Date of Birth</label>
-                    <input type="date" id="reg-dob" required>
-                    <div id="dobError" class="error-message">Date cannot be in the future.</div>
-                </div>
-                <div class="form-group">
-                    <label>Insurance ID (Optional)</label>
-                    <input type="text" placeholder="ID Number">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="reg-pass" placeholder="At least 8 characters" required>
-            </div>
-
-            <button type="submit" class="btn-submit">Sign Up</button>
-        </form>
-
-        <div class="footer-link">
-            Already have an account? <a onclick="toggleView('login-view')">Log In</a>
-        </div>
+<!-- SIGN UP -->
+<div id="signup-view" class="auth-card">
+    <div class="header">
+        <div class="logo-icon">✚</div>
+        <h1>Create Account</h1>
+        <p>Join HealthCare Plus today.</p>
     </div>
 
-    <!-- LOGIN VIEW -->
-    <div id="login-view" class="auth-card hidden">
-        <div class="header">
-            <div class="logo-icon">✚</div>
-            <h1>Welcome Back</h1>
-            <p>Please log in to your account.</p>
+    <form id="signUpForm">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="reg-name" placeholder="John Doe" required>
         </div>
 
-        <form id="loginForm">
+        <div class="form-row">
             <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="login-email" placeholder="name@email.com" required>
+                <label>Email</label>
+                <input type="email" id="reg-email" placeholder="name@email.com" required>
             </div>
             <div class="form-group">
-                <label>Password</label>
-                <input type="password" placeholder="Enter your password" required>
+                <label>Phone Number</label>
+                <input type="tel" id="reg-phone" placeholder="+1 1234567890" pattern="^\+.*" title="Please include country code starting with +" required>
             </div>
-
-            <button type="submit" class="btn-submit">Log In</button>
-        </form>
-
-        <div class="footer-link">
-            Don't have an account? <a onclick="toggleView('signup-view')">Sign Up</a>
         </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" id="reg-dob" required>
+                <div id="dobError" class="error-message">Date cannot be in the future.</div>
+            </div>
+            <div class="form-group">
+                <label>Insurance ID (Optional)</label>
+                <input type="text" placeholder="ID Number">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Gender</label>
+            <div class="gender-group">
+                <label class="gender-option" id="maleOption">
+                    <input type="radio" name="gender" value="male" required>
+                    Male
+                </label>
+                <label class="gender-option" id="femaleOption">
+                    <input type="radio" name="gender" value="female" required>
+                    Female
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="reg-pass" placeholder="At least 8 characters" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Sign Up</button>
+    </form>
+
+    <div class="footer-link">
+        Already have an account? <a onclick="toggleView('login-view')">Log In</a>
+    </div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-view" class="auth-card hidden">
+    <div class="header">
+        <div class="logo-icon">✚</div>
+        <h1>Welcome Back</h1>
+        <p>Please log in to your account.</p>
     </div>
 
-    <script>
-        // 1. NAVIGATION LOGIC (Toggling between Login and Signup)
-        function toggleView(viewId) {
-            document.getElementById('signup-view').classList.add('hidden');
-            document.getElementById('login-view').classList.add('hidden');
-            document.getElementById(viewId).classList.remove('hidden');
-        }
+    <form id="loginForm">
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="login-email" placeholder="name@email.com" required>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn-submit">Log In</button>
+    </form>
 
-        // 2. SET MAX DATE FOR DOB (No future dates)
-        const dobInput = document.getElementById('reg-dob');
-        const today = new Date().toISOString().split('T')[0];
-        dobInput.setAttribute('max', today);
+    <div class="footer-link">
+        Don't have an account? <a onclick="toggleView('signup-view')">Sign Up</a>
+    </div>
+</div>
 
-        // 3. SIGN UP FORM LOGIC
-        document.getElementById('signUpForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const dobValue = dobInput.value;
-            const dobError = document.getElementById('dobError');
-            const selectedDate = new Date(dobValue);
-            const currentDate = new Date();
-            const password = document.getElementById('reg-pass').value;
+<script>
+function toggleView(viewId) {
+    document.getElementById('signup-view').classList.add('hidden');
+    document.getElementById('login-view').classList.add('hidden');
+    document.getElementById(viewId).classList.remove('hidden');
+}
 
-            // Date validation
-            if (selectedDate > currentDate) {
-                dobError.style.display = "block";
-                return;
-            } else {
-                dobError.style.display = "none";
-            }
+const dobInput = document.getElementById('reg-dob');
+const dobError = document.getElementById('dobError');
 
-            // Password validation
-            if (password.length < 8) {
-                alert("Password must be at least 8 characters.");
-                return;
-            }
+function setMaxDOB() {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    dobInput.max = today.toISOString().split('T')[0];
+}
+setMaxDOB();
 
-            // Success Simulation
-            const btn = e.target.querySelector('button');
-            btn.innerText = "Creating Account...";
-            
-            setTimeout(() => {
-                alert("Registration Successful! Redirecting to login...");
-                // Clear the form
-                e.target.reset();
-                // "Return" to login page automatically
-                toggleView('login-view');
-                btn.innerText = "Sign Up";
-            }, 1500);
-        });
+dobInput.addEventListener("input", function() {
+    const selected = new Date(dobInput.value);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    selected.setHours(0,0,0,0);
+    dobError.style.display = selected > today ? "block" : "none";
+});
 
-        // 4. LOGIN FORM LOGIC
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            alert("Logging in as " + email + "...");
-        });
-    </script>
+document.querySelectorAll('.gender-option').forEach(option => {
+    option.addEventListener('click', function() {
+        document.querySelectorAll('.gender-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        this.querySelector('input').checked = true;
+    });
+});
+
+document.getElementById('signUpForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const password = document.getElementById('reg-pass').value;
+    if (password.length < 8) {
+        alert("Password must be at least 8 characters.");
+        return;
+    }
+
+    alert("Registration Successful!");
+    this.reset();
+    document.querySelectorAll('.gender-option').forEach(o => o.classList.remove('selected'));
+    toggleView('login-view');
+});
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert("Login successful!");
+});
+</script>
 
 </body>
 </html>
