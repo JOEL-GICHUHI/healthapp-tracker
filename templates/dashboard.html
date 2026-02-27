@@ -273,18 +273,41 @@
   </div>
 
   <script>
-    function openDrawer(){
-      document.getElementById('drawer').classList.add('open');
-      document.getElementById('overlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
+  function openDrawer(){
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer(){
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { 
+    if(e.key === 'Escape') closeDrawer(); 
+  });
+
+  // 🌤 Dynamic Health Banner Message
+  const hour = new Date().getHours();
+  const bannerText = document.querySelector(".banner-text p");
+
+  if (bannerText) {
+    if (hour >= 5 && hour < 12) {
+      bannerText.innerText = "Start your day strong 💊";
+    } 
+    else if (hour >= 12 && hour < 17) {
+      bannerText.innerText = "Don't forget your afternoon dose!";
+    } 
+    else if (hour >= 17 && hour < 21) {
+      bannerText.innerText = "Time to wind down and review your health 🌙";
+    } 
+    else {
+      bannerText.innerText = "Get enough rest for better health 😴";
     }
-    function closeDrawer(){
-      document.getElementById('drawer').classList.remove('open');
-      document.getElementById('overlay').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    // Close on Escape key
-    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
-  </script>
+  }
+
+</script>
 </body>
 </html>
