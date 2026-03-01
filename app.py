@@ -46,7 +46,13 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', user=session['user'])
+    has_medication = len(dosages) > 0
+
+    return render_template(
+        'dashboard.html',
+        user=session['user'],
+        has_medication=has_medication
+    )
 
 @app.route('/profile')
 @login_required
